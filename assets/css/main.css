@@ -1,0 +1,268 @@
+@import "tailwindcss";
+
+/* ─── Dark Mode（class 觸發） ─── */
+@custom-variant dark (&:is(.dark *));
+
+/* ─── Theme Tokens ─── */
+@theme {
+  /* Breakpoints（完全取代預設） */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+  --breakpoint-3xl: 1920px;
+
+  /* Font Families */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-noto: "Noto Sans TC", sans-serif;
+
+  /* Font Sizes（完全取代預設） */
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-tiny: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 4rem;
+  --text-7xl: 5rem;
+
+  /* Z-Index（自訂值） */
+  --z-1: 1;
+  --z-2: 2;
+  --z-3: 3;
+  --z-4: 4;
+  --z-25: 25;
+  --z-75: 75;
+  --z-100: 100;
+
+  /* Easing（自訂曲線） */
+  --ease-in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
+  --ease-out-quint: cubic-bezier(0.33, 1, 0.68, 1);
+
+  /* ── Colors ── */
+  --color-pr-sup-light: #cccccc;
+  --color-pr-light: #999999;
+  --color-pr-middle: #666666;
+  --color-pr: #000000;
+  --color-pr-dark: #000000;
+
+  --color-sec-light: #ffe1c6;
+  --color-sec: #f0923e;
+  --color-sec-dark: #8c4b1d;
+
+  --color-success: #abe06d;
+  --color-success-dark: #61a035;
+  --color-alert: #e5484d;
+
+  --color-state-error: #d61c1f;
+  --color-state-success: #00aa5f;
+
+  --color-bgc-paper: #fcfcfc;
+  --color-bgc: #d9d9d9;
+
+  --color-ad: #5a78ff;
+  --color-ad-light: #8cd3f8;
+  --color-ad-green: #0ba68c;
+
+  --color-gray-200: #f6f6f6;
+  --color-gray-300: #ededed;
+  --color-gray-400: #dddddd;
+  --color-gray-500: #bbbbbb;
+  --color-gray-700: #777777;
+  --color-gray-900: #333333;
+
+  --color-txt-light: #bbbbbb;
+  --color-txt-middle: #666666;
+  --color-txt: #475467;
+  --color-txt-dark: #777777;
+  --color-txt-sup-dark: #333333;
+
+  /* ── Spacing ── */
+  --spacing-px: 1px;
+  --spacing-0: 0;
+  --spacing-0_5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-1_5: 0.375rem;
+  --spacing-2: 0.5rem;
+  --spacing-2_5: 0.625rem;
+  --spacing-3: 0.75rem;
+  --spacing-3_5: 0.875rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-15: 3.75rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-28: 7rem;
+  --spacing-30: 7.5rem;
+  --spacing-32: 8rem;
+  --spacing-36: 9rem;
+  --spacing-40: 10rem;
+  --spacing-44: 11rem;
+  --spacing-48: 12rem;
+  --spacing-52: 13rem;
+  --spacing-56: 14rem;
+  --spacing-60: 15rem;
+  --spacing-64: 16rem;
+  --spacing-72: 18rem;
+  --spacing-80: 20rem;
+  --spacing-96: 24rem;
+
+  /* ── Box Shadows ── */
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-btn: 0px 4px 25px rgba(46, 46, 46, 0.1);
+  --shadow-card: 0px 4px 10px rgba(57, 87, 132, 0.2);
+  --shadow-filter: 0px 4px 25px rgba(12, 12, 12, 0.1);
+  --shadow-side: 0px 2px 12px 0px rgba(0, 0, 0, 0.1);
+
+  /* ── Border Radius ── */
+  --radius-3: 0.1875rem;
+
+  /* ── Animations ── */
+  --animate-spinner: spinner 1s steps(8, end) infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* ─── Keyframes ─── */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* ─── Typography Utilities（複合排版樣式，原 extend.fontSize） ─── */
+@utility text-dt-zh-head-1 {
+  font-size: 2rem;
+  line-height: 140%;
+  font-weight: 700;
+  letter-spacing: 1.28px;
+}
+
+@utility text-dt-zh-head-2 {
+  font-size: 1.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  letter-spacing: 0.96px;
+}
+
+@utility text-dt-zh-head-3 {
+  font-size: 1.125rem;
+  line-height: 140%;
+  font-weight: 600;
+  letter-spacing: 1.28px;
+}
+
+@utility text-dt-zh-head-4 {
+  font-size: 1rem;
+  line-height: 140%;
+  font-weight: 700;
+  letter-spacing: 0.96px;
+}
+
+@utility text-dt-zh-head-5 {
+  font-size: 0.875rem;
+  line-height: 140%;
+  font-weight: 500;
+  letter-spacing: 0.72px;
+}
+
+@utility text-dt-zh-body-1 {
+  font-size: 0.9375rem;
+  line-height: 140%;
+  font-weight: 400;
+  letter-spacing: 0.64px;
+}
+
+@utility text-dt-zh-body-2 {
+  font-size: 0.875rem;
+  line-height: 140%;
+  font-weight: 400;
+  letter-spacing: 0.64px;
+}
+
+@utility text-dt-zh-minimum {
+  font-size: 0.875rem;
+  line-height: 140%;
+  font-weight: 400;
+  letter-spacing: 0.56px;
+}
+
+@utility text-btn-1 {
+  font-size: 1rem;
+  line-height: 140%;
+  font-weight: 500;
+  letter-spacing: 0.64px;
+}
+
+@utility text-btn-2 {
+  font-size: 0.875rem;
+  line-height: 140%;
+  font-weight: 500;
+  letter-spacing: 0.56px;
+}
+
+@utility text-btn-3 {
+  font-size: 0.75rem;
+  line-height: 140%;
+  font-weight: 400;
+  letter-spacing: 0.48px;
+}
+
+/* ─── Container ─── */
+@utility container {
+  margin-inline: auto;
+  padding-inline: 20px;
+
+  @media (width >= 768px) {
+    padding-inline: 40px;
+  }
+}
+
+/* ─── Scrollbar Hide ─── */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ─── Safelist（container queries 格線） ─── */
+@source inline("@lg:grid-cols-1 @lg:grid-cols-2 @lg:grid-cols-3 @lg:grid-cols-4 @lg:grid-cols-5 @lg:grid-cols-6 @2xl:grid-cols-1 @2xl:grid-cols-2 @2xl:grid-cols-3 @2xl:grid-cols-4 @2xl:grid-cols-5 @2xl:grid-cols-6 @3xl:grid-cols-1 @3xl:grid-cols-2 @3xl:grid-cols-3 @3xl:grid-cols-4 @3xl:grid-cols-5 @3xl:grid-cols-6");

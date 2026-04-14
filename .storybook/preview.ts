@@ -1,3 +1,5 @@
+import 'virtual:svg-icons-register'
+import '@/assets/css/main.css'
 import type { Preview } from '@storybook-vue/nuxt'
 
 const preview: Preview = {

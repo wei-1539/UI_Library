@@ -1,0 +1,50 @@
+{/* Icon.mdx */}
+
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks'
+import * as IconStories from './Icon.stories.ts'
+
+<Meta of={IconStories} />
+
+# Icon
+
+基於 SVG Sprite 的 Icon 元件，透過 `vite-plugin-svg-icons` 將所有 SVG 打包成 sprite，使用時只需傳入名稱即可。
+
+## 使用方式
+
+```vue
+<AtomIcon name="add" size="md" variant="primary" />
+```
+
+## Props
+
+<ArgTypes of={IconStories} />
+
+## 尺寸對照
+
+<table>
+  <thead>
+    <tr><th>size</th><th>實際大小</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>xs</code></td><td>24px</td></tr>
+    <tr><td><code>sm</code></td><td>32px</td></tr>
+    <tr><td><code>md</code></td><td>40px</td></tr>
+    <tr><td><code>lg</code></td><td>48px</td></tr>
+  </tbody>
+</table>
+
+## 新增 Icon
+
+把 `.svg` 檔放進 `assets/icons/` 資料夾，Gallery 會自動出現，不需要手動註冊。
+
+```
+assets/
+└── icons/
+    ├── add.svg        → name="add"
+    ├── arrow-down.svg → name="arrow-down"
+    └── your-icon.svg  → name="your-icon"  ← 直接放進來就好
+```
+
+## Icon Gallery
+
+<Canvas of={IconStories.Gallery} />

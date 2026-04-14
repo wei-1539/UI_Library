@@ -28,6 +28,7 @@
     "@nuxtjs/storybook": "^9.0.1",
     "@storybook/addon-a11y": "~9.0.5",
     "@storybook/addon-docs": "~9.0.5",
-    "storybook": "~9.0.5"
+    "storybook": "~9.0.5",
+    "vite-plugin-svg-icons": "^2.0.1"
   }
 }

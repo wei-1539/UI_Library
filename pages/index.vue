@@ -2,6 +2,7 @@
 
 <template>
   <div class="min-h-screen bg-gray-200 p-10 font-sans">
+    <AtomButton text="Button" prepend="add" append="add" />
     <AtomIcon name="add" size="sm" variant="primary" />
     <!-- Colors -->
     <section class="mb-10">

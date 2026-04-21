@@ -29,16 +29,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// export const Basic: Story = {
-//   args: {
-//     name: 'add',
-//     size: 'md',
-//     variant: 'primary',
-//   },
-// }
+export const Basic: Story = {
+  args: {
+    name: 'add',
+    size: 'md',
+    variant: 'primary',
+  },
+}
 
 export const Gallery: Story = {
-  name: 'Icon Overview',
+  name: 'Icon 預覽',
   parameters: {
     controls: { disable: true },
   },

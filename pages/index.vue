@@ -1,9 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+const navList = [
+  { text: 'Home', to: '/' ,icon: 'add',iconOnly: true},
+  { text: 'About',to: '/about' },
+  { text: 'Contact',  },
+]
+</script>
 
 <template>
   <div class="min-h-screen bg-gray-200 p-10 font-sans">
     <AtomButton text="Button" prepend="add" append="add" />
     <AtomIcon name="add" size="sm" variant="primary" />
+    <AtomBreadcrumb :nav-list="navList"  />
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

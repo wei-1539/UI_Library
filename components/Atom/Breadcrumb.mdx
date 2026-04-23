@@ -1,0 +1,110 @@
+import { Meta, Controls, Stories, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as BreadcrumbStories from './Breadcrumb.stories.ts'
+
+<Meta of={BreadcrumbStories} />
+
+# Breadcrumb
+
+麵包屑導航元件，根據傳入的 `navList` 陣列自動產生路徑列表：
+
+- 有 `to` 的項目 → 渲染成 `<AtomButton>`（可點擊連結）
+- 沒有 `to` 的項目 → 渲染成純文字 `<span>`，最後一項自動降低透明度表示「目前頁」
+- 每個項目之間以 `separator` 分隔
+
+---
+
+## Props
+
+<ArgTypes of={BreadcrumbStories} />
+
+<table>
+  <thead>
+    <tr>
+      <th>屬性</th>
+      <th>型別</th>
+      <th>預設值</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>navList</code></td>
+      <td><code>Array&lt;NavItem&gt;</code></td>
+      <td><code>[]</code></td>
+      <td>麵包屑陣列</td>
+    </tr>
+    <tr>
+      <td><code>separator</code></td>
+      <td><code>string</code></td>
+      <td><code>'/'</code></td>
+      <td>項目之間的分隔符號</td>
+    </tr>
+  </tbody>
+</table>
+
+### NavItem 結構
+
+<table>
+  <thead>
+    <tr>
+      <th>欄位</th>
+      <th>型別</th>
+      <th>必填</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>text</code></td>
+      <td><code>string</code></td>
+      <td>✅</td>
+      <td>顯示文字</td>
+    </tr>
+    <tr>
+      <td><code>to</code></td>
+      <td><code>string</code></td>
+      <td>❌</td>
+      <td>連結路徑，有值時渲染為 <code>AtomButton</code></td>
+    </tr>
+    <tr>
+      <td><code>icon</code></td>
+      <td><code>string</code></td>
+      <td>❌</td>
+      <td>icon 名稱，傳入 <code>AtomButton</code> 的 <code>prepend</code></td>
+    </tr>
+    <tr>
+      <td><code>iconOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>❌</td>
+      <td>設為 <code>true</code> 時只顯示 icon、隱藏文字</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 注意事項
+
+- 最後一個沒有 `to` 的項目會自動加上 `opacity-50`，表示「目前所在頁」
+- `separator` 不會出現在最後一個項目之後
+- `icon` 和 `iconOnly` 需搭配有 `to` 的項目才有效（因為純文字項目不渲染 `AtomButton`）
+
+---
+
+## 範例
+
+### 基本用法
+
+<Canvas of={BreadcrumbStories.Basic} />
+
+### 帶 Icon
+
+<Canvas of={BreadcrumbStories.WithIcon} />
+
+### Icon Only
+
+<Canvas of={BreadcrumbStories.WithIconOnly} />
+
+### 自訂分隔符號
+
+<Canvas of={BreadcrumbStories.separator} />

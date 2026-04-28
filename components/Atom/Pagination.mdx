@@ -1,0 +1,105 @@
+import { Meta, Controls, Stories, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as PaginationStories from './Pagination.stories.ts'
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+分頁元件，支援兩種使用模式：
+
+- **直接指定總頁數** → 傳 `totalPage`
+- **自動計算** → 傳 `total`（總筆數）+ `perPage`（每頁筆數），元件自己算頁數
+
+切換 `layout` 為 `change` 時，左側會多一個「每頁筆數」下拉選單，選單切換後自動跳回第 1 頁。
+
+---
+
+## Props
+
+<ArgTypes of={PaginationStories} />
+
+---
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件名稱</th>
+      <th>參數</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:currentPage</code></td>
+      <td><code>page: number</code></td>
+      <td>頁碼變更時觸發</td>
+    </tr>
+    <tr>
+      <td><code>update:perPage</code></td>
+      <td><code>size: number</code></td>
+      <td>每頁筆數變更時觸發（layout=change）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 頁碼顯示邏輯
+
+元件用 `siblingsCount` 和 `boundaryCount` 控制省略號的出現位置：
+
+```
+boundaryCount=1, siblingsCount=1, currentPage=10, totalPage=20
+
+→ [1, …, 9, 10, 11, …, 20]
+```
+
+- `boundaryCount`：頭尾各固定顯示幾頁
+- `siblingsCount`：當前頁碼左右各顯示幾頁
+- 間距剛好 2 時會直接補上中間那頁，不放省略號（例如 `[1, 2, 3]` 而非 `[1, …, 3]`）
+- **省略號出現條件**（同時取決於 `totalPage` 與 `currentPage`）：
+  - 右側不出現省略號：`totalPage ≤ currentPage + siblingsCount + boundaryCount + 1`
+  - 左側不出現省略號：`currentPage ≤ boundaryCount + siblingsCount + 2`
+  - 以預設值 `siblingsCount=1, boundaryCount=1` 為例：`currentPage=1` 時 `totalPage ≥ 5` 出現省略號；`currentPage=3` 時 `totalPage ≥ 7` 才出現
+
+---
+
+## 注意事項
+
+- `totalPage` 和 `total` 二擇一即可；同時傳入時 `total` 優先（default 模式下 `totalPage` 優先）
+- `layout="change"` 時若沒監聽 `update:perPage`，下拉選單仍可操作但外部拿不到新值
+- `perPageOptions` 預設為 `[5, 10, 25, 50]`，可自行覆蓋
+
+---
+
+## 範例
+
+### 基本用法
+
+<Canvas of={PaginationStories.Basic} />
+
+### siblingsCount = 3 ，『當前頁碼』顯示前後頁碼數量
+
+<Canvas of={PaginationStories.MoreSiblings} />
+
+### boundaryCount = 2， 頁首頁尾顯示數量
+
+<Canvas of={PaginationStories.MoreBoundary} />
+
+### 少量頁數（無省略號）
+
+<Canvas of={PaginationStories.FewPages} />
+
+### 用 total + perPage 計算頁數
+
+<Canvas of={PaginationStories.FromTotal} />
+
+### 含每頁筆數選單（layout=change）
+
+<Canvas of={PaginationStories.ChangeLayout} />
+
+### 互動式（可點擊切換）
+
+<Canvas of={PaginationStories.Interactive} />

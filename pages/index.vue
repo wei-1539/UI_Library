@@ -5,6 +5,8 @@ const navList = [
   { text: 'About',to: '/about' },
   { text: 'Contact',  },
 ]
+
+const size = ref(10)
 </script>
 
 <template>
@@ -12,6 +14,7 @@ const navList = [
     <AtomButton text="Button" prepend="add" append="add" />
     <AtomIcon name="add" size="sm" variant="primary" />
     <AtomBreadcrumb :nav-list="navList"  />
+    <AtomPagination :current-page="6" :total-page="100" layout="change" v-model:per-page="size"/>
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

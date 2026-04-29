@@ -1,0 +1,144 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as TabStories from './Tab.stories.ts'
+
+<Meta of={TabStories} />
+
+# Tab
+
+頁籤元件，支援三種視覺樣式、鍵盤導航、個別禁用，以及 `v-model` 雙向綁定。
+
+---
+
+## Props
+
+<ArgTypes of={TabStories} />
+
+---
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件名稱</th>
+      <th>參數</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:current</code></td>
+      <td><code>value: string</code></td>
+      <td>切換 tab 時觸發，配合 <code>v-model:current</code> 使用</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Item 結構
+
+```ts
+interface TabItem {
+    label: string       // 顯示文字
+    value: string       // 唯一識別值（綁定用）
+    disabled?: boolean  // 是否禁用
+    icon?: string       // icon 名稱（對應 AtomIcon）
+}
+```
+
+---
+
+## 樣式變體
+
+<table>
+  <thead>
+    <tr>
+      <th>variant</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>line</code></td>
+      <td>底部滑動指示條（預設），適合頁面內切換</td>
+    </tr>
+    <tr>
+      <td><code>pill</code></td>
+      <td>膠囊填充背景，適合篩選器、toolbar</td>
+    </tr>
+    <tr>
+      <td><code>card</code></td>
+      <td>卡片風格，適合面板式切換</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 鍵盤操作
+
+<table>
+  <thead>
+    <tr>
+      <th>按鍵</th>
+      <th>行為</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>→</code> / <code>↓</code></td>
+      <td>切換到下一個可用 tab</td>
+    </tr>
+    <tr>
+      <td><code>←</code> / <code>↑</code></td>
+      <td>切換到上一個可用 tab</td>
+    </tr>
+    <tr>
+      <td><code>Home</code></td>
+      <td>跳到第一個可用 tab</td>
+    </tr>
+    <tr>
+      <td><code>End</code></td>
+      <td>跳到最後一個可用 tab</td>
+    </tr>
+  </tbody>
+</table>
+
+禁用的 tab 會自動跳過。
+
+---
+
+## 範例
+
+### 基本用法（Line）
+
+<Canvas of={TabStories.Basic} />
+
+### Pill 樣式
+
+<Canvas of={TabStories.Pill} />
+
+### Card 樣式
+
+<Canvas of={TabStories.Card} />
+
+### 尺寸比較
+
+<Canvas of={TabStories.Sizes} />
+
+### 帶 Icon
+
+<Canvas of={TabStories.WithIcon} />
+
+### 禁用個別 Tab
+
+<Canvas of={TabStories.Disabled} />
+
+### 撐滿寬度
+
+<Canvas of={TabStories.FullWidth} />
+
+### 三種樣式一覽
+
+<Canvas of={TabStories.AllVariants} />

@@ -1,0 +1,75 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as MarqueeStories from './Marquee.stories.ts'
+
+<Meta of={MarqueeStories} />
+
+# Marquee
+
+水平無限捲動的跑馬燈，以 **GSAP** 雙層文字交錯位移，外層用 `overflow-hidden` 裁切。需專案已註冊 Nuxt 的 `$gsap`。
+
+---
+
+## Props
+
+<ArgTypes of={MarqueeStories} />
+
+---
+
+## 行為說明
+
+<table>
+  <thead>
+    <tr>
+      <th>主題</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>speed</strong></td>
+      <td>數值愈大，捲動愈快。內部以 <code>groupWidth / speed</code> 作為一輪的 duration。</td>
+    </tr>
+    <tr>
+      <td><strong>direction</strong></td>
+      <td><code>left</code>：由右往左；<code>right</code>：由左往右（offset 正負相反）。</td>
+    </tr>
+    <tr>
+      <td><strong>fullWidth</strong></td>
+      <td>為 <code>true</code> 時，依容器寬度計算要重複幾段 <code>text</code> 才夠寬，並使用 <code>w-full</code>；為 <code>false</code> 時內容寬度隨文字（<code>w-fit</code>）。</td>
+    </tr>
+    <tr>
+      <td><strong>尺寸變化</strong></td>
+      <td>外層以 <code>ResizeObserver</code> 監聽，視窗或父層變寬變窄時會重算。</td>
+    </tr>
+    <tr>
+      <td><strong>Props 變更</strong></td>
+      <td><code>text</code> / <code>speed</code> / <code>direction</code> / <code>fullWidth</code> 任一變動會重新建立時間軸，與 Storybook Controls 或父元件綁定相容。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 無障礙
+
+- 視覺上的跑馬燈段落標為 `aria-hidden`，完整文字另放在 `.sr-only`，方便螢幕閱讀器讀到一句完整內容。
+
+---
+
+## 範例
+
+### 基本
+
+<Canvas of={MarqueeStories.Basic} />
+
+### 速度對照（慢／快）
+
+<Canvas of={MarqueeStories.SlowSpeed} />
+
+### 方向（左／右）
+
+<Canvas of={MarqueeStories.DirectionRight} />
+
+### 撐滿容器寬度
+
+<Canvas of={MarqueeStories.FullWidth} />

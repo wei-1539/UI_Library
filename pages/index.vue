@@ -6,6 +6,7 @@ const navList = [
   { text: 'Contact',  },
 ]
 
+const marqueeText = ref('Lorem ipsum dolor sit amet consectetur adipisicing elit. 1Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 2Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 3Quisquam, quos.')
 const size = ref(10)
 </script>
 
@@ -15,6 +16,7 @@ const size = ref(10)
     <AtomIcon name="add" size="sm" variant="primary" />
     <AtomBreadcrumb :nav-list="navList"  />
     <AtomPagination :current-page="6" :total-page="100" layout="change" v-model:per-page="size"/>
+    <CommonMarquee :text="marqueeText" :speed="100" />
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 
 interface AtomMarqueeProps {
-    text?: string
+    text: string
     speed?: number
     direction?: 'left' | 'right'
     fullWidth?: boolean
 }
 const props = withDefaults(defineProps<AtomMarqueeProps>(), {
-    text: '',
     speed: 50,
     direction: 'left',
     fullWidth: false,
@@ -32,11 +31,11 @@ const buildAnimation = () => {
     if (tl) { tl.kill(); tl = null }
 
     const containerWidth = container.offsetWidth
-    const singleTextWidth = copy1.offsetWidth
+    const singleTextWidth = copy1.offsetWidth / repeatCount.value
     const isLeft = direction.value === 'left'
 
     if (fullWidth.value) {
-        repeatCount.value = Math.max(1, Math.ceil(containerWidth / singleTextWidth))
+        repeatCount.value = Math.max(1, Math.ceil(containerWidth / singleTextWidth) + 1)
     } else {
         repeatCount.value = 1
     }
@@ -56,6 +55,8 @@ const buildAnimation = () => {
 }
 
 let ro: ResizeObserver | null = null
+
+watch([text, speed, direction, fullWidth], buildAnimation)
 
 onMounted(() => {
     buildAnimation()

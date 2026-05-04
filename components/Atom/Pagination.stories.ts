@@ -27,6 +27,19 @@ export const Basic: Story = {
         siblingsCount: 1,
         boundaryCount: 1,
     },
+    render: (args) => ({
+        components: { Pagination },
+        setup() {
+            return { args }
+        },
+        template: `
+            <Pagination
+                v-bind="args"
+                @update:currentPage="args.currentPage = $event"
+                @update:perPage="args.perPage = $event"
+            />
+        `,
+    }),
 }
 
 export const MoreSiblings: Story = {

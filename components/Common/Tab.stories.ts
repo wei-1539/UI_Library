@@ -43,6 +43,18 @@ export const Basic: Story = {
         variant: 'line',
         size: 'md',
     },
+    render: (args) => ({
+        components: { Tab },
+        setup() {
+            return { args }
+        },
+        template: `
+            <Tab
+                v-bind="args"
+                @update:current="args.current = $event"
+            />
+        `,
+    }),
 }
 
 export const Pill: Story = {

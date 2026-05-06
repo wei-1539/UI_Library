@@ -9,6 +9,12 @@ const config: StorybookConfig = {
     "@storybook/addon-a11y",
     "@storybook/addon-docs"
   ],
-  framework: "@storybook-vue/nuxt"
+  framework: "@storybook-vue/nuxt",
+  viteFinal(config) {
+    if (process.env.NODE_ENV === 'production') {
+      config.base = '/UI_Library/';
+    }
+    return config;
+  }
 };
 export default config;

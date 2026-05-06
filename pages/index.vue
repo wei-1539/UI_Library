@@ -8,6 +8,7 @@ const navList = [
 
 const marqueeText = ref('Lorem ipsum dolor sit amet consectetur adipisicing elit. 1Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 2Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 3Quisquam, quos.')
 const size = ref(10)
+const activeControlled = ref(false)
 </script>
 
 <template>
@@ -15,8 +16,70 @@ const size = ref(10)
     <AtomButton text="Button" prepend="add" append="add" />
     <AtomIcon name="add" size="sm" variant="primary" />
     <AtomBreadcrumb :nav-list="navList"  />
-    <AtomPagination :current-page="6" :total-page="100" layout="change" v-model:per-page="size"/>
+    <AtomPagination v-model:per-page="size" :current-page="6" :total-page="100" layout="change" />
     <CommonMarquee :text="marqueeText" :speed="100" />
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-3 text-dt-zh-head-3">Popover 實際範例：卡片更多操作</h2>
+      <p class="mb-3 text-dt-zh-body-2 text-txt-light">同一個情境，左邊是受控，右邊是非受控。</p>
+      <div class="mb-3 flex gap-2">
+        <button
+          type="button"
+          class="rounded border border-gray-300 bg-white px-3 py-1 text-sm cursor-pointer"
+          @click="activeControlled = true"
+        >
+          外部打開受控選單
+        </button>
+        <button
+          type="button"
+          class="rounded border border-gray-300 bg-white px-3 py-1 text-sm cursor-pointer"
+          @click="activeControlled = false"
+        >
+          外部關閉受控選單
+        </button>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-lg border border-gray-200 bg-white p-4">
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">受控（有 v-model）</p>
+          <div class="mb-3 flex items-start justify-between">
+            <div>
+              <p class="text-dt-zh-body-1 font-semibold">Wei Chen</p>
+              <p class="text-dt-zh-body-2 text-txt-light">@wei0713</p>
+            </div>
+            <CommonPoppover v-model="activeControlled" placement="bottom-end" :offset="8">
+              <template #reference>
+                <button type="button" class="rounded border border-gray-300 px-2 py-1 text-sm">⋯</button>
+              </template>
+              <div class="min-w-[140px] space-y-1">
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">編輯資料</button>
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">分享連結</button>
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm text-red-600 hover:bg-gray-100">刪除帳號</button>
+              </div>
+            </CommonPoppover>
+          </div>
+          <p class="text-dt-zh-body-2 text-txt-light">外部狀態：{{ activeControlled ? '開啟' : '關閉' }}</p>
+        </div>
+        <div class="rounded-lg border border-gray-200 bg-white p-4">
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">非受控（沒有 v-model）</p>
+          <div class="mb-3 flex items-start justify-between">
+            <div>
+              <p class="text-dt-zh-body-1 font-semibold">Dylan Lan</p>
+              <p class="text-dt-zh-body-2 text-txt-light">@dylan</p>
+            </div>
+            <CommonPoppover placement="bottom-end" :offset="8">
+              <template #reference>
+                <button type="button" class="rounded border border-gray-300 px-2 py-1 text-sm">⋯</button>
+              </template>
+              <div class="min-w-[140px] space-y-1">
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">編輯資料</button>
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">分享連結</button>
+                <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm text-red-600 hover:bg-gray-100">刪除帳號</button>
+              </div>
+            </CommonPoppover>
+          </div>
+          <p class="text-dt-zh-body-2 text-txt-light">父層沒有狀態可控制，開關由元件內部處理。</p>
+        </div>
+      </div>
+    </section>
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>
@@ -54,7 +117,7 @@ const size = ref(10)
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Breakpoints</h2>
       <div class="rounded-lg bg-sec-light p-4 text-dt-zh-body-2">
-        <span class="sm:hidden">< sm (480px)</span>
+        <span class="sm:hidden">&lt; sm (480px)</span>
         <span class="hidden sm:inline md:hidden">sm (480px)</span>
         <span class="hidden md:inline lg:hidden">md (768px)</span>
         <span class="hidden lg:inline xl:hidden">lg (1024px)</span>

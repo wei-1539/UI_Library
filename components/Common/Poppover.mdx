@@ -1,0 +1,92 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as PoppoverStories from './Poppover.stories.ts'
+
+<Meta of={PoppoverStories} />
+
+# Poppover
+
+可透過 reference slot 觸發的浮層元件，支援 `click / hover / focus / touch`。  
+這個元件同時支援「受控」與「非受控」兩種狀態管理方式。
+
+---
+
+## Props
+
+<ArgTypes of={PoppoverStories} />
+
+---
+
+## 受控 vs 非受控
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>寫法</th>
+      <th>適用情境</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>非受控</strong></td>
+      <td>不綁 <code>v-model</code></td>
+      <td>只在乎元件自己互動（例：卡片右上角更多操作選單）</td>
+    </tr>
+    <tr>
+      <td><strong>受控</strong></td>
+      <td>綁定 <code>v-model</code></td>
+      <td>需要被父層流程控制（例：外部按鈕強制開關、切頁時統一關閉）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 行為說明
+
+<table>
+  <thead>
+    <tr>
+      <th>主題</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>reference slot</strong></td>
+      <td>使用 <code>#reference</code> 決定觸發元素（按鈕、icon、文字皆可）。</td>
+    </tr>
+    <tr>
+      <td><strong>trigger</strong></td>
+      <td>可設定單一觸發（如 <code>click</code>）或陣列（如 <code>['click','hover']</code>）。</td>
+    </tr>
+    <tr>
+      <td><strong>定位</strong></td>
+      <td>透過 Floating UI 處理位置計算，搭配 <code>placement</code> 與 <code>offset</code> 微調。</td>
+    </tr>
+    <tr>
+      <td><strong>外部點擊關閉</strong></td>
+      <td>監聽 <code>pointerdown</code>，若事件路徑不包含 reference/popover 就自動關閉。</td>
+    </tr>
+    <tr>
+      <td><strong>Esc 關閉</strong></td>
+      <td>監聽 <code>Escape</code> 按鍵，快速關閉浮層。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 使用範例
+
+### 非受控（預設）
+
+<Canvas of={PoppoverStories.Uncontrolled} />
+
+### 受控（v-model）
+
+<Canvas of={PoppoverStories.Controlled} />
+
+### Hover 觸發
+
+<Canvas of={PoppoverStories.HoverTrigger} />

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import Poppover from './Poppover.vue'
 
 const meta = {
-    title: 'Common/Poppover',
+    title: 'Atom/Poppover',
     component: Poppover,
     argTypes: {
         modelValue: { control: 'boolean', description: '受控模式開關（v-model）' },

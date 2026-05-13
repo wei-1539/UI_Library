@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
 import { cva } from 'class-variance-authority'
+import { useRovingFocus } from '@/composables/useRovingFocus'
 
 type Size = 'sm' | 'md' | 'lg'
 type Variant = 'line' | 'pill' | 'card'
@@ -47,11 +48,12 @@ const { current, items, variant, size, fullWidth } = toRefs(props)
 
 const tabRefs = ref<HTMLElement[]>([])
 
-// 設定項目 ref
-function setTabRef(el: ComponentPublicInstance | Element | null, index: number) {
-    if (!el) return
-    tabRefs.value[index] = (el as ComponentPublicInstance)?.$el ?? el
-}
+// useRovingFocus：只負責方向鍵移動焦點，Tab 用水平模式（Left/Right）
+const { onKeydown, setItemRef: setTabRef } = useRovingFocus({
+    itemRefs:   tabRefs,
+    isDisabled: (i) => !!items.value[i]?.disabled,
+    orientation: 'horizontal',
+})
 
 // 當前選中的項目索引
 const activeIndex = computed(() =>
@@ -64,32 +66,18 @@ function select(item: TabItem) {
     emit('update:current', item.value)
 }
 
-// 按鍵事件
-function onKeydown(e: KeyboardEvent, index: number) {
-    const enabledIndices = items.value
-        .map((item, i) => (item.disabled ? -1 : i))
-        .filter((i) => i !== -1)
-
-    const pos = enabledIndices.indexOf(index)
-    if (pos === -1) return
-
-    let next = -1
-    // 使用 % 取模運算，避免索引超出範圍
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        next = enabledIndices[(pos + 1) % enabledIndices.length]
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        next = enabledIndices[(pos - 1 + enabledIndices.length) % enabledIndices.length]
-    } else if (e.key === 'Home') {
-        next = enabledIndices[0]
-    } else if (e.key === 'End') {
-        next = enabledIndices[enabledIndices.length - 1]
-    }
-
-    if (next !== -1) {
-        e.preventDefault()
-        tabRefs.value[next]?.focus?.()
-        select(items.value[next])
-    }
+// Tab 與 Dropdown 不同：焦點移動的同時也要 select
+// 所以在 useRovingFocus 移動焦點後，額外發出 update:current
+function onTabKeydown(e: KeyboardEvent) {
+    const before = document.activeElement
+    onKeydown(e)
+    // 等下一個 frame 確認焦點是否真的移動了
+    requestAnimationFrame(() => {
+        const after = document.activeElement
+        if (after === before) return
+        const focusedIndex = tabRefs.value.findIndex((el) => el === after)
+        if (focusedIndex !== -1) select(items.value[focusedIndex])
+    })
 }
 
 // ── indicator 位置追蹤（僅 line variant） ──
@@ -193,7 +181,7 @@ const buttonSizeMap: Record<Size, 'xs' | 'sm' | 'md' | 'lg'> = { sm: 'sm', md: '
                 fullWidth,
             })"
             @click="select(item)"
-            @keydown="onKeydown($event, index)"
+            @keydown="onTabKeydown"
         />
 
         <!-- line variant 底部滑動指示條 -->

@@ -1,0 +1,107 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as Stories from './useFocusReturn.stories.ts'
+
+<Meta of={Stories} />
+
+# useFocusReturn
+
+**Layer 2** — 管理「開啟 / 關閉」時的焦點行為。
+
+當選單或浮層開啟時，自動將焦點移進去；關閉後，焦點還回觸發的元素。  
+這是無障礙操作（a11y）的基本要求，讓鍵盤使用者不會在操作完後「迷失焦點」。
+
+---
+
+## 使用方式
+
+```ts
+const isOpen = ref(false)
+const itemRefs = ref<HTMLElement[]>([])
+
+useFocusReturn({
+    isOpen,
+    itemRefs,
+    isDisabled: (i) => !!items[i]?.disabled,
+})
+```
+
+這個 composable **不需要接回傳值**，它透過 `watch(isOpen)` 自動觸發，不需要手動呼叫任何東西。
+
+---
+
+## Options
+
+<table>
+  <thead>
+    <tr><th>參數</th><th>型別</th><th>預設</th><th>說明</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>isOpen</code></td>
+      <td><code>Ref&lt;boolean&gt;</code></td>
+      <td>必填</td>
+      <td>控制開關的 ref，watch 它來決定 focus 行為</td>
+    </tr>
+    <tr>
+      <td><code>itemRefs</code></td>
+      <td><code>Ref&lt;HTMLElement[]&gt;</code></td>
+      <td>必填</td>
+      <td>開啟後要聚焦的元素陣列，會選第一個非 disabled 的</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td><code>(i: number) =&gt; boolean</code></td>
+      <td>—</td>
+      <td>用來跳過 disabled 項目，找到第一個可 focus 的</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 行為說明
+
+<table>
+  <thead>
+    <tr><th>時機</th><th>行為</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>isOpen 變為 true</strong></td>
+      <td>
+        1. 記住目前的 <code>document.activeElement</code>（就是 trigger）<br/>
+        2. 等 nextTick（DOM 更新完）後，focus 第一個非 disabled 的 item
+      </td>
+    </tr>
+    <tr>
+      <td><strong>isOpen 變為 false</strong></td>
+      <td>
+        焦點還回步驟 1 記住的 trigger 元素，並清除記憶
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+> **為什麼要 nextTick？**  
+> `isOpen` 變 true 的瞬間，Vue 還沒把 menu 的 `<li>` 渲染到 DOM 裡。  
+> 直接 focus 會找不到元素，所以要等 Vue 更新完畫面後再執行。
+
+---
+
+## 適用元件
+
+| 元件 | 說明 |
+|---|---|
+| Dropdown | 開啟後 focus 第一個選項，關閉後焦點回 trigger |
+| Select | 同上 |
+| Dialog / Modal | 開啟後 focus 第一個可操作元素，關閉後焦點回觸發按鈕 |
+| ContextMenu | 右鍵開啟後 focus 第一個選項 |
+
+---
+
+## 互動展示
+
+用 Tab 鍵 focus 到「開啟面板」按鈕，按 Enter 開啟。  
+觀察右下角的焦點紀錄，確認焦點自動移進去並在關閉後返還。
+
+<Canvas of={Stories.Basic} />

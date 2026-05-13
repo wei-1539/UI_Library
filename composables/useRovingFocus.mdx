@@ -1,0 +1,159 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as Stories from './useRovingFocus.stories.ts'
+
+<Meta of={Stories} />
+
+# useRovingFocus
+
+**Layer 1** — 在一組可 focus 的元素之間，透過方向鍵移動焦點。
+
+只負責「焦點移到哪裡」，不管元件開關、不管選取邏輯。  
+其他 composable（`useFocusReturn`、`useMenuKeyboard`）都建立在這層之上。
+
+---
+
+## 使用方式
+
+```ts
+const itemRefs = ref<HTMLElement[]>([])
+
+const { onKeydown, setItemRef } = useRovingFocus({
+    itemRefs,
+    isDisabled: (i) => !!items[i]?.disabled,
+    orientation: 'vertical',   // 'horizontal' | 'vertical' | 'both'
+    wrap: true,                // 是否環繞，預設 true
+})
+```
+
+```html
+<!-- template -->
+<ul @keydown="onKeydown">
+    <li
+        v-for="(item, i) in items"
+        :ref="(el) => setItemRef(el, i)"
+        :tabindex="i === 0 ? 0 : -1"
+    >
+        {{ item.label }}
+    </li>
+</ul>
+```
+
+---
+
+## Options
+
+<table>
+  <thead>
+    <tr><th>參數</th><th>型別</th><th>預設</th><th>說明</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>itemRefs</code></td>
+      <td><code>Ref&lt;HTMLElement[]&gt;</code></td>
+      <td>必填</td>
+      <td>每個可 focus 項目的 DOM ref 陣列</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td><code>(i: number) =&gt; boolean</code></td>
+      <td>—</td>
+      <td>傳入索引，回傳該項目是否 disabled，disabled 項目會被跳過</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical' | 'both'</code></td>
+      <td><code>'both'</code></td>
+      <td>決定哪個方向鍵有效</td>
+    </tr>
+    <tr>
+      <td><code>wrap</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>到達邊界時是否環繞跳回對面</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 回傳值
+
+<table>
+  <thead>
+    <tr><th>名稱</th><th>說明</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onKeydown(e, keyMap?)</code></td>
+      <td>
+        鍵盤事件處理器，綁在容器的 <code>@keydown</code> 上。<br/>
+        第二個參數 <code>keyMap</code> 可傳入額外按鍵處理，或覆蓋預設行為。
+      </td>
+    </tr>
+    <tr>
+      <td><code>setItemRef(el, i)</code></td>
+      <td>收集每個項目的 DOM ref，綁在 <code>:ref</code> 上</td>
+    </tr>
+    <tr>
+      <td><code>moveFocus(delta)</code></td>
+      <td>程式化移動焦點：<code>1</code> / <code>-1</code> / <code>'first'</code> / <code>'last'</code></td>
+    </tr>
+    <tr>
+      <td><code>enabledIndices</code></td>
+      <td>過濾掉 disabled 後的索引陣列（computed）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 預設按鍵行為
+
+<table>
+  <thead>
+    <tr><th>按鍵</th><th>行為</th><th>受 orientation 限制</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>↓</code></td><td>往下移動</td><td>vertical / both</td></tr>
+    <tr><td><code>↑</code></td><td>往上移動</td><td>vertical / both</td></tr>
+    <tr><td><code>→</code></td><td>往右移動</td><td>horizontal / both</td></tr>
+    <tr><td><code>←</code></td><td>往左移動</td><td>horizontal / both</td></tr>
+    <tr><td><code>Home</code></td><td>跳到第一個</td><td>無限制</td></tr>
+    <tr><td><code>End</code></td><td>跳到最後一個</td><td>無限制</td></tr>
+  </tbody>
+</table>
+
+> 傳入 `keyMap` 可以新增額外按鍵，或用同名 key 覆蓋預設行為：
+> ```ts
+> onKeydown(e, {
+>     Escape: (e) => { e.preventDefault(); close() },
+>     Enter:  (e) => { e.preventDefault(); selectCurrent() },
+> })
+> ```
+
+---
+
+## 適用元件
+
+| 元件 | orientation |
+|---|---|
+| Tab | `horizontal` |
+| Dropdown / Select / ContextMenu | `vertical` |
+| RadioGroup / Checkbox Group | `vertical` |
+| Combobox 下拉清單 | `vertical` |
+
+---
+
+## 互動展示
+
+### 垂直導航（↑ ↓）
+
+<Canvas of={Stories.Vertical} />
+
+### 水平導航（← →）
+
+<Canvas of={Stories.Horizontal} />
+
+### 不環繞（wrap: false）
+
+<Canvas of={Stories.NoWrap} />

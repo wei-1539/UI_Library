@@ -68,13 +68,21 @@ const onKeyDown = (event: KeyboardEvent)=>{
     modelValueWritable.value = !modelValueWritable.value
 }
 
-const onMouseEnter =  () =>{
-    if(!triggerList(props.trigger).includes('hover')) return
+// hover 關閉需要延遲，避免「從 reference 移到 popover 內容」的空白期誤關
+let hoverTimer: ReturnType<typeof setTimeout> | null = null
+
+const onMouseEnter = () => {
+    if (!triggerList(props.trigger).includes('hover')) return
+    // 移入時取消關閉 timer，確保選單保持開啟
+    if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null }
     modelValueWritable.value = true
 }
-const onMouseLeave =  () =>{
-    if(!triggerList(props.trigger).includes('hover')) return
-    modelValueWritable.value = false
+const onMouseLeave = () => {
+    if (!triggerList(props.trigger).includes('hover')) return
+    // 延遲 120ms 再關閉，讓滑鼠有時間移到 popover 內容區
+    hoverTimer = setTimeout(() => {
+        modelValueWritable.value = false
+    }, 120)
 }
 
 const onFocus = () =>{
@@ -116,6 +124,7 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('pointerdown', onPointerDownOutside)
     document.removeEventListener('keydown', onEscKeydown)
+    if (hoverTimer) clearTimeout(hoverTimer)
 })
 </script>
 
@@ -139,7 +148,13 @@ onUnmounted(() => {
     </template>
     <template v-if="modelValueWritable">
         <Teleport to="body">
-            <div ref="popoverRef" class="atomic-popover" :style="floatingStyles">
+            <div
+                ref="popoverRef"
+                class="atomic-popover"
+                :style="floatingStyles"
+                @mouseenter="onMouseEnter"
+                @mouseleave="onMouseLeave"
+            >
                 <slot />
             </div>
         </Teleport>

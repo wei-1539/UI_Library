@@ -45,7 +45,7 @@ const activeControlled = ref(false)
               <p class="text-dt-zh-body-1 font-semibold">Wei Chen</p>
               <p class="text-dt-zh-body-2 text-txt-light">@wei0713</p>
             </div>
-            <CommonPoppover v-model="activeControlled" placement="bottom-end" :offset="8">
+            <AtomPoppover v-model="activeControlled" placement="bottom-end" :offset="8">
               <template #reference>
                 <button type="button" class="rounded border border-gray-300 px-2 py-1 text-sm">⋯</button>
               </template>
@@ -54,7 +54,7 @@ const activeControlled = ref(false)
                 <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">分享連結</button>
                 <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm text-red-600 hover:bg-gray-100">刪除帳號</button>
               </div>
-            </CommonPoppover>
+            </AtomPoppover>
           </div>
           <p class="text-dt-zh-body-2 text-txt-light">外部狀態：{{ activeControlled ? '開啟' : '關閉' }}</p>
         </div>
@@ -65,7 +65,7 @@ const activeControlled = ref(false)
               <p class="text-dt-zh-body-1 font-semibold">Dylan Lan</p>
               <p class="text-dt-zh-body-2 text-txt-light">@dylan</p>
             </div>
-            <CommonPoppover placement="bottom-end" :offset="8">
+            <AtomPoppover placement="bottom-end" :offset="8">
               <template #reference>
                 <button type="button" class="rounded border border-gray-300 px-2 py-1 text-sm">⋯</button>
               </template>
@@ -74,12 +74,22 @@ const activeControlled = ref(false)
                 <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm hover:bg-gray-100">分享連結</button>
                 <button type="button" class="block w-full rounded px-3 py-1 text-left text-sm text-red-600 hover:bg-gray-100">刪除帳號</button>
               </div>
-            </CommonPoppover>
+            </AtomPoppover>
           </div>
           <p class="text-dt-zh-body-2 text-txt-light">父層沒有狀態可控制，開關由元件內部處理。</p>
         </div>
       </div>
     </section>
+
+    <CommonDropdown :items="[
+  { label: '編輯', value: 'edit', onClick: (v) => console.log(v) },
+  { label: '編輯2（延遲關）', value: 'edit2', onClick: (v, close) => { console.log(v); console.log('不會關閉可做額外事情') } },
+  { label: '刪除', value: 'delete', disabled: true },
+]">
+  <template #trigger>
+    <button>選單 ▾</button>
+  </template>
+</CommonDropdown>
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

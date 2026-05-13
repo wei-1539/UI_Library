@@ -1,0 +1,165 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as DropdownStories from './Dropdown.stories.ts'
+
+<Meta of={DropdownStories} />
+
+# Dropdown
+
+建立在 `Poppover` 之上的選單元件，提供完整的鍵盤無障礙操作。  
+與直接使用 `Poppover` 的差異在於：Dropdown 內建方向鍵導航、自動聚焦、焦點返還等鍵盤行為。
+
+---
+
+## Props
+
+<ArgTypes of={DropdownStories} />
+
+---
+
+## Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>Slot 名稱</th>
+      <th>說明</th>
+      <th>Slot Props</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#trigger</code></td>
+      <td>觸發選單的元素，通常放按鈕。</td>
+      <td>無</td>
+    </tr>
+    <tr>
+      <td><code>#menuitem</code></td>
+      <td>自訂每個選項的內容，預設顯示 <code>label</code>。</td>
+      <td><code>label</code>、<code>value</code>、<code>disabled</code>、<code>context</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## onClick 的兩種用法
+
+`items` 裡的每個 `onClick` 依據**參數數量**決定關閉時機：
+
+<table>
+  <thead>
+    <tr>
+      <th>寫法</th>
+      <th>行為</th>
+      <th>適用情境</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onClick(value)</code></td>
+      <td>執行後<strong>自動關閉</strong>選單</td>
+      <td>一般操作（編輯、刪除）</td>
+    </tr>
+    <tr>
+      <td><code>onClick(value, close)</code></td>
+      <td>執行後<strong>不自動關閉</strong>，需自行呼叫 <code>close()</code></td>
+      <td>需等待非同步結果（API 呼叫、確認視窗）</td>
+    </tr>
+  </tbody>
+</table>
+
+```ts
+// 自動關閉
+{ label: '編輯', value: 'edit', onClick: (value) => handleEdit(value) }
+
+// 手動控制關閉
+{ label: '刪除', value: 'delete', onClick: async (value, close) => {
+    await confirmDelete(value)
+    close()
+}}
+```
+
+---
+
+## 鍵盤操作
+
+Dropdown 透過內部的 `useMenuKeyboard` composable 提供完整的 WAI-ARIA menu 鍵盤行為：
+
+<table>
+  <thead>
+    <tr>
+      <th>按鍵</th>
+      <th>行為</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>↓</code></td>
+      <td>焦點移到下一個選項，在最後一個時跳回第一個（環繞）</td>
+    </tr>
+    <tr>
+      <td><code>↑</code></td>
+      <td>焦點移到上一個選項，在第一個時跳到最後一個（環繞）</td>
+    </tr>
+    <tr>
+      <td><code>Home</code></td>
+      <td>焦點移到第一個選項</td>
+    </tr>
+    <tr>
+      <td><code>End</code></td>
+      <td>焦點移到最後一個選項</td>
+    </tr>
+    <tr>
+      <td><code>Enter</code> / <code>Space</code></td>
+      <td>執行目前焦點所在的選項</td>
+    </tr>
+    <tr>
+      <td><code>Escape</code> / <code>Tab</code></td>
+      <td>關閉選單，焦點返還到觸發按鈕</td>
+    </tr>
+  </tbody>
+</table>
+
+> **disabled 選項不會被鍵盤方向鍵停留**，導航時會自動跳過。
+
+---
+
+## 與 Poppover 的關係
+
+```
+Dropdown
+  └── AtomPoppover（負責定位、開關、外部點擊關閉）
+        + useMenuKeyboard（負責鍵盤導航）
+              ├── useRovingFocus（方向鍵移動焦點）
+              └── useFocusReturn（開啟 auto-focus、關閉還焦點）
+```
+
+若只需要浮層定位而不需要鍵盤選單行為，請直接使用 `Poppover`。
+
+---
+
+## 使用範例
+
+### 基本用法
+
+<Canvas of={DropdownStories.Basic} />
+
+### 含 Disabled 項目
+
+<Canvas of={DropdownStories.WithDisabled} />
+
+### 手動控制關閉
+
+<Canvas of={DropdownStories.ManualClose} />
+
+### 自訂 MenuItem 樣式
+
+<Canvas of={DropdownStories.CustomMenuItem} />
+
+### Hover 觸發
+
+<Canvas of={DropdownStories.HoverTrigger} />
+
+### 鍵盤操作展示
+
+<Canvas of={DropdownStories.KeyboardDemo} />

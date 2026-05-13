@@ -1,0 +1,153 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as Stories from './useMenuKeyboard.stories.ts'
+
+<Meta of={Stories} />
+
+# useMenuKeyboard
+
+**Layer 3** — 把 `useRovingFocus`（L1）和 `useFocusReturn`（L2）組合起來，  
+再補上 menu 專屬的按鍵行為（Escape 關閉、Enter 觸發）。
+
+這是開發 menu-like 元件時**最直接使用**的 composable。  
+`useRovingFocus` 和 `useFocusReturn` 是它的內部實作，通常不需要直接碰。
+
+---
+
+## 使用方式
+
+```ts
+const isOpen = ref(false)
+const close = () => { isOpen.value = false }
+const menuItemRefs = ref<HTMLElement[]>([])
+
+const { onMenuKeydown, setItemRef } = useMenuKeyboard({
+    itemRefs:   menuItemRefs,
+    isDisabled: (i) => !!items[i]?.disabled,
+    isOpen,
+    onClose:    close,
+})
+```
+
+```html
+<!-- template -->
+<ul @keydown="onMenuKeydown">
+    <li
+        v-for="(item, i) in items"
+        :ref="(el) => setItemRef(el, i)"
+        :tabindex="item.disabled ? -1 : 0"
+        @click="handleClick(item)"
+    >
+        {{ item.label }}
+    </li>
+</ul>
+```
+
+---
+
+## Options
+
+<table>
+  <thead>
+    <tr><th>參數</th><th>型別</th><th>說明</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>itemRefs</code></td>
+      <td><code>Ref&lt;HTMLElement[]&gt;</code></td>
+      <td>每個 menu item 的 DOM ref 陣列</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td><code>(i: number) =&gt; boolean</code></td>
+      <td>傳入索引，回傳該項目是否 disabled</td>
+    </tr>
+    <tr>
+      <td><code>isOpen</code></td>
+      <td><code>Ref&lt;boolean&gt;</code></td>
+      <td>控制 menu 開關的 ref（來自元件的 <code>active</code>）</td>
+    </tr>
+    <tr>
+      <td><code>onClose</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>關閉 menu 的方法（來自元件的 <code>close</code> function）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 回傳值
+
+<table>
+  <thead>
+    <tr><th>名稱</th><th>綁在哪裡</th><th>說明</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onMenuKeydown</code></td>
+      <td><code>&lt;ul&gt;</code> 的 <code>@keydown</code></td>
+      <td>處理所有鍵盤行為</td>
+    </tr>
+    <tr>
+      <td><code>setItemRef</code></td>
+      <td><code>&lt;li&gt;</code> 的 <code>:ref</code></td>
+      <td>收集每個項目的 DOM ref</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 完整按鍵行為
+
+<table>
+  <thead>
+    <tr><th>按鍵</th><th>行為</th><th>來源</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>↓</code></td><td>焦點移到下一個（環繞）</td><td>useRovingFocus</td></tr>
+    <tr><td><code>↑</code></td><td>焦點移到上一個（環繞）</td><td>useRovingFocus</td></tr>
+    <tr><td><code>Home</code></td><td>焦點移到第一個</td><td>useRovingFocus</td></tr>
+    <tr><td><code>End</code></td><td>焦點移到最後一個</td><td>useRovingFocus</td></tr>
+    <tr><td><code>Escape</code></td><td>關閉 menu，焦點還回 trigger</td><td>此層補充 + useFocusReturn</td></tr>
+    <tr><td><code>Tab</code></td><td>關閉 menu，焦點還回 trigger</td><td>此層補充 + useFocusReturn</td></tr>
+    <tr><td><code>Enter</code></td><td>觸發目前 focus 項目的 click</td><td>此層補充</td></tr>
+    <tr><td><code>Space</code></td><td>觸發目前 focus 項目的 click</td><td>此層補充</td></tr>
+    <tr><td>開啟時</td><td>自動 focus 第一個非 disabled 的 item</td><td>useFocusReturn</td></tr>
+    <tr><td>關閉時</td><td>焦點還回 trigger 元素</td><td>useFocusReturn</td></tr>
+  </tbody>
+</table>
+
+> disabled 項目不會被方向鍵停留，會自動跳過。
+
+---
+
+## 三層架構關係
+
+```
+useMenuKeyboard（你使用這層）
+    │
+    ├── useRovingFocus   方向鍵 / Home / End 焦點移動
+    │
+    └── useFocusReturn   開啟 auto-focus + 關閉還焦點
+```
+
+若要做 Tab（水平導航 + 立即 select）或 RadioGroup（垂直導航）等行為不同的元件，  
+可以直接使用 `useRovingFocus`，自行補充 select 邏輯。
+
+---
+
+## 適用元件
+
+| 元件 | 說明 |
+|---|---|
+| Dropdown | ✅ 已使用 |
+| Select | 結構相同，直接套用 |
+| ContextMenu | 右鍵選單，同樣套用 |
+| Combobox 下拉清單 | 僅下拉部分套用，輸入框另外處理 |
+
+---
+
+## 互動展示
+
+<Canvas of={Stories.Basic} />

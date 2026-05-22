@@ -1,0 +1,163 @@
+import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
+import * as AccordionStories from './AtomAccordion.stories.ts'
+
+<Meta of={AccordionStories} />
+
+# Accordion 手風琴
+
+由 `AtomAccordion`（容器）與 `AtomAccordionItem`（項目）組合使用的折疊面板元件。
+<br/>支援單選 / 多選、受控 / 非受控、停用，也可以將 `AtomAccordionItem` 單獨使用。
+
+---
+
+## 元件結構
+
+```
+AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
+  └── AtomAccordionItem  ← 單一折疊項目，透過 inject 接收狀態
+  └── AtomAccordionItem
+  └── AtomAccordionItem
+```
+
+---
+
+## Props
+
+### AtomAccordion
+
+<ArgTypes of={AccordionStories} />
+
+### AtomAccordionItem
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>型別</th>
+      <th>預設值</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string | number</code></td>
+      <td><code>undefined</code></td>
+      <td>在 AtomAccordion 內使用時必填，作為識別 key</td>
+    </tr>
+    <tr>
+      <td><code>title</code></td>
+      <td><code>string</code></td>
+      <td>—</td>
+      <td>顯示在觸發列的標題文字</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>停用後點擊無效，樣式半透明</td>
+    </tr>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>boolean</code></td>
+      <td><code>undefined</code></td>
+      <td>單獨使用（不在 AtomAccordion 內）時的受控開關，搭配 <code>v-model</code> 使用</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Slots
+
+### AtomAccordion
+
+<table>
+  <thead>
+    <tr>
+      <th>Slot 名稱</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#default</code></td>
+      <td>放置 <code>AtomAccordionItem</code> 的區域</td>
+    </tr>
+  </tbody>
+</table>
+
+### AtomAccordionItem
+
+<table>
+  <thead>
+    <tr>
+      <th>Slot 名稱</th>
+      <th>說明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>#default</code></td>
+      <td>折疊後顯示的內容</td>
+    </tr>
+    <tr>
+      <td><code>#title</code></td>
+      <td>自訂標題列內容，預設顯示 <code>title</code> prop</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 受控 vs 非受控
+
+<table>
+  <thead>
+    <tr>
+      <th>模式</th>
+      <th>寫法</th>
+      <th>狀態在哪</th>
+      <th>適用情境</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>受控</td>
+      <td><code>v-model="open"</code></td>
+      <td>父層的變數</td>
+      <td>需從外部控制開關，例如點擊頁面其他按鈕自動展開特定項目</td>
+    </tr>
+    <tr>
+      <td>非受控</td>
+      <td>不傳 v-model</td>
+      <td>元件內部 ref</td>
+      <td>只需要折疊功能，不需要外部感知狀態</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 使用範例
+
+
+### 單一收合（預設）
+
+<Canvas of={AccordionStories.SingleSelect} />
+
+### 複數收合（multiple）
+
+<Canvas of={AccordionStories.MultipleSelect} />
+
+### 受控（Controlled）
+
+<Canvas of={AccordionStories.Controlled} />
+
+### 非受控（Uncontrolled）
+
+<Canvas of={AccordionStories.Uncontrolled} />
+
+### 停用狀態
+
+<Canvas of={AccordionStories.Disabled} />

@@ -9,6 +9,11 @@ const navList = [
 const marqueeText = ref('Lorem ipsum dolor sit amet consectetur adipisicing elit. 1Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 2Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 3Quisquam, quos.')
 const size = ref(10)
 const activeControlled = ref(false)
+
+// Accordion 範例
+const singleOpen = ref<string>('')
+const multiOpen = ref<string[]>([])
+const standaloneControlled = ref(false)
 </script>
 
 <template>
@@ -77,6 +82,80 @@ const activeControlled = ref(false)
             </AtomPoppover>
           </div>
           <p class="text-dt-zh-body-2 text-txt-light">父層沒有狀態可控制，開關由元件內部處理。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Accordion -->
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-3 text-dt-zh-head-3">Accordion 手風琴</h2>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- 單選 -->
+        <div>
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">單選（預設）</p>
+          <p class="mb-3 text-dt-zh-body-2 text-txt-light">目前開啟：{{ singleOpen || '（無）' }}</p>
+          <AtomAccordion v-model="singleOpen">
+            <AtomAccordionItem value="faq-1" title="什麼是 Vue 3？">
+              Vue 3 是一個漸進式 JavaScript 框架，用於建構使用者介面。
+            </AtomAccordionItem>
+            <AtomAccordionItem value="faq-2" title="Composition API 跟 Options API 差在哪？">
+              Composition API 讓你用函式組織邏輯，更容易抽取與重用；Options API 則用物件分類（data、methods 等）。
+            </AtomAccordionItem>
+            <AtomAccordionItem value="faq-3" title="什麼是 provide / inject？">
+              provide / inject 是 Vue 的跨層級資料傳遞機制，不需要一層層 props 傳遞。
+            </AtomAccordionItem>
+            <AtomAccordionItem value="faq-4" title="這個項目已停用" disabled>
+              你看不到我的。
+            </AtomAccordionItem>
+          </AtomAccordion>
+        </div>
+
+        <!-- 多選 -->
+        <div>
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">多選（multiple）</p>
+          <p class="mb-3 text-dt-zh-body-2 text-txt-light">目前開啟：{{ multiOpen.length ? multiOpen.join('、') : '（無）' }}</p>
+          <AtomAccordion v-model="multiOpen" multiple>
+            <AtomAccordionItem value="item-1" title="送貨資訊">
+              全台超商取貨，3-5 個工作天送達。
+            </AtomAccordionItem>
+            <AtomAccordionItem value="item-2" title="退換貨政策">
+              購買後 7 天內可無條件退換，商品需保持原狀。
+            </AtomAccordionItem>
+            <AtomAccordionItem value="item-3" title="付款方式">
+              支援信用卡、ATM 轉帳、超商代碼付款。
+            </AtomAccordionItem>
+          </AtomAccordion>
+        </div>
+      </div>
+
+      <!-- 獨立使用（無 AtomAccordion 包覆） -->
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <!-- 非受控（standalone uncontrolled） -->
+        <div>
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">單獨使用・非受控</p>
+          <p class="mb-3 text-dt-zh-body-2 text-txt-light">不需要 v-model，開關狀態自己管理</p>
+          <AtomAccordionItem title="常見問題：什麼是非受控？">
+            非受控元件自己維護狀態，父層不需要傳 v-model 也能運作。
+          </AtomAccordionItem>
+        </div>
+
+        <!-- 受控（standalone controlled） -->
+        <div>
+          <p class="mb-2 text-dt-zh-body-2 font-semibold">單獨使用・受控</p>
+          <p class="mb-3 text-dt-zh-body-2 text-txt-light">
+            外部狀態：{{ standaloneControlled ? '開啟' : '關閉' }}
+            <button
+              type="button"
+              class="ml-2 rounded border border-gray-300 bg-white px-2 py-0.5 text-xs cursor-pointer"
+              @click="standaloneControlled = !standaloneControlled"
+            >
+              外部切換
+            </button>
+          </p>
+          <AtomAccordionItem v-model="standaloneControlled" title="常見問題：什麼是受控？">
+            受控元件的開關狀態由父層的 v-model 決定，元件本身只負責 emit。
+          </AtomAccordionItem>
         </div>
       </div>
     </section>

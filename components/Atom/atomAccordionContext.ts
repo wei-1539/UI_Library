@@ -1,11 +1,11 @@
 /**
  * 為什麼這個檔案要獨立存在？
  *
- * AtomAccordion（父）需要 provide context，
- * AtomAccordionItem（子）需要 inject 同一個 context。
+ * Accordion（父）需要 provide context，
+ * AccordionItem（子）需要 inject 同一個 context。
  * 兩者都需要用到同一個「injection key」跟「型別定義」。
  *
- * 理想上應該寫在 AtomAccordion.vue 裡再 export 出去，
+ * 理想上應該寫在 Accordion.vue 裡再 export 出去，
  * 但 Vue SFC 有兩個限制互相衝突：
  *
  *   1. <script setup> 不允許 export（ESLint: vue/no-export-in-script-setup）
@@ -14,7 +14,7 @@
  *      （ESLint: import/first）
  *
  * 所以唯一乾淨的解法：把「要共享的型別 + key」抽成獨立 .ts 檔，
- * 讓 AtomAccordion 和 AtomAccordionItem 都來這裡 import。
+ * 讓 Accordion 和 AccordionItem 都來這裡 import。
  */
 
 import type { InjectionKey, Ref } from 'vue'

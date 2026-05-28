@@ -1,0 +1,41 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks'
+import * as AvatarStories from './Avatar.stories.ts'
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+顯示使用者頭像的基礎元件，支援：
+
+- 圖片顯示（`src`）
+- 沒有圖片時用預設 slot 顯示文字或 icon
+- 圖片載入失敗時用 `fallback` slot 顯示替代內容
+
+## 使用方式
+
+```vue
+<Avatar src="https://i.pravatar.cc/160?img=12" alt="Wei" size="lg" rounded="full" />
+```
+
+## Props
+
+<ArgTypes of={AvatarStories} />
+
+## 行為說明
+
+- `src` 有值且圖片載入成功：顯示 `<img>`
+- `src` 沒有值：顯示預設 slot
+- `src` 有值但載入失敗：顯示 `fallback` slot，若沒提供則退回預設 slot/`alt`
+
+## Slots
+
+- `default`：`src` 沒有值時顯示；若圖片失敗且未提供 `fallback`，也會當作最後顯示內容
+- `fallback`：僅在 `src` 有值、且圖片載入失敗時顯示（不是一般預設內容）
+
+## 範例
+
+<Canvas of={AvatarStories.Basic} />
+<Canvas of={AvatarStories.Sizes} />
+<Canvas of={AvatarStories.Rounded} />
+<Canvas of={AvatarStories.SlotFallback} />
+<Canvas of={AvatarStories.ImageErrorFallback} />

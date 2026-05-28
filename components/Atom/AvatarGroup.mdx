@@ -1,0 +1,38 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks'
+import * as AvatarGroupStories from './AvatarGroup.stories.ts'
+
+<Meta of={AvatarGroupStories} />
+
+# AvatarGroup
+
+用來把多個 `Avatar` 疊在一起顯示，適合團隊成員、參與者、共同編輯者等情境。
+
+元件會自動幫每個 Avatar 套用一致的 `size` 與 `rounded`，也能透過 `max` 控制最多顯示數量。
+
+## 使用方式
+
+```vue
+<AvatarGroup :max="4" size="lg" rounded="full">
+  <Avatar src="https://i.pravatar.cc/160?img=3" alt="Amy" />
+  <Avatar src="https://i.pravatar.cc/160?img=5" alt="Ben" />
+  <Avatar src="https://i.pravatar.cc/160?img=8" alt="Chris" />
+  <Avatar src="https://i.pravatar.cc/160?img=10" alt="Dora" />
+  <Avatar src="https://i.pravatar.cc/160?img=12" alt="Evan" />
+</AvatarGroup>
+```
+
+## Props
+
+<ArgTypes of={AvatarGroupStories} />
+
+## 注意事項
+
+- `AvatarGroup` 只處理群組排版與共用 props；每個頭像內容還是由子層 `Avatar` 負責
+- 當實際 Avatar 數量大於 `max`，最前面會顯示一個 `+N`（超出數量）
+- `size`、`rounded` 會覆蓋到每個子 Avatar（群組統一樣式）
+
+## 範例
+
+<Canvas of={AvatarGroupStories.Basic} />
+<Canvas of={AvatarGroupStories.MaxVariants} />
+<Canvas of={AvatarGroupStories.SizeAndRounded} />

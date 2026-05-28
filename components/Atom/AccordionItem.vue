@@ -3,7 +3,7 @@ import { AccordionKey } from './atomAccordionContext'
 
 interface Props {
     /**
-     * 在 AtomAccordion 內使用時必填。
+     * 在 Accordion 內使用時必填。
      * 這個值用來告訴父層「我是哪一個 item」，
      * 父層的 active 陣列就是靠比對這個 value 來決定誰要展開。
      */
@@ -13,7 +13,7 @@ interface Props {
     /** 是否停用，停用後點擊無效 */
     disabled?: boolean
     /**
-     * 單獨使用（不在 AtomAccordion 內）時的受控開關。
+     * 單獨使用（不在 Accordion 內）時的受控開關。
      * 不傳 → 非受控，元件自己管開關狀態。
      * 傳入 → 受控，開關由外部 v-model 決定。
      */
@@ -34,7 +34,7 @@ const emit = defineEmits<Emits>()
 
 /**
  * 嘗試從父層取得 AccordionContext。
- * - 有找到 → 這個 item 被包在 AtomAccordion 裡，開關狀態由父層管
+ * - 有找到 → 這個 item 被包在 Accordion 裡，開關狀態由父層管
  * - undefined → 獨立使用，自己決定開關邏輯
  *
  * inject 的第二個參數是找不到時的預設值（這裡給 undefined，代表「沒有父層」）
@@ -43,7 +43,7 @@ const context = inject(AccordionKey, undefined)
 
 /**
  * 「單獨使用 + 受控」的判斷：
- * 沒有 context（不在 AtomAccordion 內）且外部有傳 modelValue。
+ * 沒有 context（不在 Accordion 內）且外部有傳 modelValue。
  */
 const isControlled = computed(() => !context && props.modelValue !== undefined)
 
@@ -56,7 +56,7 @@ const internal = ref(false)
 /**
  * 這個 item 是否展開，根據三種情境選擇不同的狀態來源：
  *
- * 1. 有 context（在 AtomAccordion 內）
+ * 1. 有 context（在 Accordion 內）
  *    → 看父層的 active 陣列有沒有包含自己的 value
  *
  * 2. 無 context + 有 modelValue（單獨使用・受控）

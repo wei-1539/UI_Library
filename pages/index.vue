@@ -9,6 +9,15 @@ const navList = [
 const marqueeText = ref('Lorem ipsum dolor sit amet consectetur adipisicing elit. 1Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 2Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. 3Quisquam, quos.')
 const size = ref(10)
 const activeControlled = ref(false)
+const validAvatarSrc = 'https://avatars.githubusercontent.com/u/39984251'
+const brokenAvatarSrc = 'https://avatars.githubusercontent.com/u/39984251-not-found'
+const groupMembers = [
+  { name: 'Wei', src: 'https://i.pravatar.cc/80?img=12' },
+  { name: 'Dylan', src: 'https://i.pravatar.cc/80?img=33' },
+  { name: 'Alyssa', src: 'https://i.pravatar.cc/80?img=47' },
+  { name: 'Mia', src: 'https://i.pravatar.cc/80?img=52' },
+  { name: 'Noah', src: 'https://i.pravatar.cc/80?img=15' },
+]
 
 // Accordion 範例
 const singleOpen = ref<string>('')
@@ -23,6 +32,45 @@ const standaloneControlled = ref(false)
     <AtomBreadcrumb :nav-list="navList"  />
     <AtomPagination v-model:per-page="size" :current-page="6" :total-page="100" layout="change" />
     <CommonMarquee :text="marqueeText" :speed="100" />
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-3 text-dt-zh-head-3">Avatar 圖片失敗 fallback 範例</h2>
+      <p class="mb-4 text-dt-zh-body-2 text-txt-light">左邊是正常圖片，右邊是故意壞掉的網址（會顯示 fallback）。</p>
+      <div class="flex flex-wrap items-center gap-6">
+        <div class="space-y-2">
+          <p class="text-dt-zh-body-2 font-semibold">正常圖片</p>
+          <AtomAvatar :src="validAvatarSrc" alt="Wei" size="lg" rounded="full" />
+        </div>
+        <div class="space-y-2">
+          <p class="text-dt-zh-body-2 font-semibold">壞掉圖片（觸發 fallback）</p>
+          <AtomAvatar :src="brokenAvatarSrc" alt="WW" size="lg" class="bg-gray-100 text-gray-700">
+            <template #fallback>
+              <span class="flex h-full w-full items-center justify-center text-dt-zh-body-2 font-semibold">
+                WW
+              </span>
+            </template>
+          </AtomAvatar>
+        </div>
+      </div>
+    </section>
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-3 text-dt-zh-head-3">AvatarGroup 群組範例</h2>
+      <p class="mb-4 text-dt-zh-body-2 text-txt-light">專案成員共 {{ groupMembers.length }} 人，畫面先顯示 4 人，其餘用 +{{ groupMembers.length - 4 }} 表示。</p>
+      <AtomAvatarGroup :max="3" size="lg" rounded="full">
+        <AtomAvatar
+          v-for="member in groupMembers"
+          :key="member.name"
+          :src="member.src"
+          :alt="member.name"
+          class="bg-gray-100 text-gray-700"
+        >
+          <template #fallback>
+            <span class="flex h-full w-full items-center justify-center text-xs font-semibold">
+              {{ member.name.slice(0, 1).toUpperCase() }}
+            </span>
+          </template>
+        </AtomAvatar>
+      </AtomAvatarGroup>
+    </section>
     <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
       <h2 class="mb-3 text-dt-zh-head-3">Popover 實際範例：卡片更多操作</h2>
       <p class="mb-3 text-dt-zh-body-2 text-txt-light">同一個情境，左邊是受控，右邊是非受控。</p>
@@ -153,22 +201,27 @@ const standaloneControlled = ref(false)
               外部切換
             </button>
           </p>
-          <AtomAccordionItem v-model="standaloneControlled" title="常見問題：什麼是受控？">
+          <AtomAccordionItem
+            v-model="standaloneControlled"
+            title="常見問題：什麼是受控？"
+          >
             受控元件的開關狀態由父層的 v-model 決定，元件本身只負責 emit。
           </AtomAccordionItem>
         </div>
       </div>
     </section>
 
-    <CommonDropdown :items="[
-  { label: '編輯', value: 'edit', onClick: (v) => console.log(v) },
-  { label: '編輯2（延遲關）', value: 'edit2', onClick: (v, close) => { console.log(v); console.log('不會關閉可做額外事情') } },
-  { label: '刪除', value: 'delete', disabled: true },
-]">
-  <template #trigger>
-    <button>選單 ▾</button>
-  </template>
-</CommonDropdown>
+    <CommonDropdown
+      :items="[
+        { label: '編輯', value: 'edit', onClick: (v) => console.log(v) },
+        { label: '編輯2（延遲關）', value: 'edit2', onClick: (v, close) => { console.log(v); console.log('不會關閉可做額外事情') } },
+        { label: '刪除', value: 'delete', disabled: true },
+      ]"
+    >
+      <template #trigger>
+        <button>選單 ▾</button>
+      </template>
+    </CommonDropdown>
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

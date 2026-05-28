@@ -177,7 +177,7 @@ const standaloneControlled = ref(false)
         </div>
       </div>
 
-      <!-- 獨立使用（無 AtomAccordion 包覆） -->
+      <!-- 獨立使用（無 Accordion 包覆） -->
       <div class="mt-6 grid gap-6 md:grid-cols-2">
         <!-- 非受控（standalone uncontrolled） -->
         <div>

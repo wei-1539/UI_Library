@@ -60,7 +60,7 @@ watch(
 )
 
 /**
- * 子元件（AtomAccordionItem）點擊時會呼叫這個函式，傳入自己的 value。
+ * 子元件（AccordionItem）點擊時會呼叫這個函式，傳入自己的 value。
  *
  * 多選：value 不在清單 → 加入；已在清單 → 移除
  * 單選：value 不在清單 → 設為唯一開啟；已在清單 → 全部收起（toggle off）
@@ -93,7 +93,7 @@ const toggle = (value: string | number) => {
 
 /**
  * 把 active 跟 toggle 透過 provide 往下傳，
- * 所有子孫層的 AtomAccordionItem 都能 inject 到，不需要逐層 props 傳遞。
+ * 所有子孫層的 AccordionItem 都能 inject 到，不需要逐層 props 傳遞。
  */
 provide(AccordionKey, { active, toggle })
 </script>

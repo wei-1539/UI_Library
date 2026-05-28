@@ -1,33 +1,33 @@
 import { Meta, ArgTypes, Canvas } from '@storybook/addon-docs/blocks'
-import * as AccordionStories from './AtomAccordion.stories.ts'
+import * as AccordionStories from './Accordion.stories.ts'
 
 <Meta of={AccordionStories} />
 
 # Accordion 手風琴
 
-由 `AtomAccordion`（容器）與 `AtomAccordionItem`（項目）組合使用的折疊面板元件。
-<br/>支援單選 / 多選、受控 / 非受控、停用，也可以將 `AtomAccordionItem` 單獨使用。
+由 `Accordion`（容器）與 `AccordionItem`（項目）組合使用的折疊面板元件。
+<br/>支援單選 / 多選、受控 / 非受控、停用，也可以將 `AccordionItem` 單獨使用。
 
 ---
 
 ## 元件結構
 
 ```
-AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
-  └── AtomAccordionItem  ← 單一折疊項目，透過 inject 接收狀態
-  └── AtomAccordionItem
-  └── AtomAccordionItem
+Accordion        ← 狀態管理容器，透過 provide 往下傳
+  └── AccordionItem  ← 單一折疊項目，透過 inject 接收狀態
+  └── AccordionItem
+  └── AccordionItem
 ```
 
 ---
 
 ## Props
 
-### AtomAccordion
+### Accordion
 
 <ArgTypes of={AccordionStories} />
 
-### AtomAccordionItem
+### AccordionItem
 
 <table>
   <thead>
@@ -43,7 +43,7 @@ AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
       <td><code>value</code></td>
       <td><code>string | number</code></td>
       <td><code>undefined</code></td>
-      <td>在 AtomAccordion 內使用時必填，作為識別 key</td>
+      <td>在 Accordion 內使用時必填，作為識別 key</td>
     </tr>
     <tr>
       <td><code>title</code></td>
@@ -61,7 +61,7 @@ AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
       <td><code>modelValue</code></td>
       <td><code>boolean</code></td>
       <td><code>undefined</code></td>
-      <td>單獨使用（不在 AtomAccordion 內）時的受控開關，搭配 <code>v-model</code> 使用</td>
+      <td>單獨使用（不在 Accordion 內）時的受控開關，搭配 <code>v-model</code> 使用</td>
     </tr>
   </tbody>
 </table>
@@ -70,7 +70,7 @@ AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
 
 ## Slots
 
-### AtomAccordion
+### Accordion
 
 <table>
   <thead>
@@ -82,12 +82,12 @@ AtomAccordion        ← 狀態管理容器，透過 provide 往下傳
   <tbody>
     <tr>
       <td><code>#default</code></td>
-      <td>放置 <code>AtomAccordionItem</code> 的區域</td>
+      <td>放置 <code>AccordionItem</code> 的區域</td>
     </tr>
   </tbody>
 </table>
 
-### AtomAccordionItem
+### AccordionItem
 
 <table>
   <thead>

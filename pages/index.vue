@@ -222,6 +222,143 @@ const standaloneControlled = ref(false)
         <button>選單 ▾</button>
       </template>
     </CommonDropdown>
+    <!-- Badge -->
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-3 text-dt-zh-head-3">Badge 通知提醒</h2>
+      <div class="flex flex-wrap items-center gap-10">
+
+        <!-- placement 四個位置 -->
+        <div class="space-y-1">
+          <p class="text-dt-zh-body-2 font-semibold">四個定位</p>
+          <div class="flex flex-wrap gap-8 pt-3">
+            <AtomBadge content="5" placement="top-right">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="5" placement="top-left">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="5" placement="bottom-right">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="5" placement="bottom-left">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+          </div>
+        </div>
+
+        <!-- size -->
+        <div class="space-y-1">
+          <p class="text-dt-zh-body-2 font-semibold">尺寸</p>
+          <div class="flex flex-wrap gap-8 pt-3">
+            <AtomBadge content="3" size="dot">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="3" size="md">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="99+" size="lg">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+          </div>
+        </div>
+
+        <!-- 超過 max -->
+        <div class="space-y-1">
+          <p class="text-dt-zh-body-2 font-semibold">超過 max (99)</p>
+          <div class="pt-3">
+            <AtomBadge content="200" :max="99">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+          </div>
+        </div>
+
+        <!-- color -->
+        <div class="space-y-1">
+          <p class="text-dt-zh-body-2 font-semibold">顏色</p>
+          <div class="flex flex-wrap gap-8 pt-3">
+            <AtomBadge content="1" color="pr">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="2" color="success">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="3" color="alert">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+            <AtomBadge content="4" color="ad">
+              <div class="h-10 w-10 rounded-lg bg-gray-200" />
+            </AtomBadge>
+          </div>
+        </div>
+
+        <!-- 貼在 Avatar 上的實際場景 -->
+        <div class="space-y-1">
+          <p class="text-dt-zh-body-2 font-semibold">貼在 Avatar</p>
+          <div class="pt-3">
+            <AtomBadge content="9" color="alert" placement="top-right" size="md">
+              <AtomAvatar :src="validAvatarSrc" alt="Wei" size="lg" rounded="full" />
+            </AtomBadge>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Badge + Button -->
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-1 text-dt-zh-head-3">Badge + Button</h2>
+      <p class="mb-4 text-dt-zh-body-2 text-txt-light">AtomBadge 包住 AtomButton，不動 Button 本身</p>
+      <div class="flex flex-wrap items-center gap-10">
+
+        <!-- 四個位置 -->
+        <div class="space-y-2">
+          <p class="text-dt-zh-body-2 font-semibold">定位</p>
+          <div class="flex flex-wrap gap-8 pt-2">
+            <AtomBadge content="3" placement="top-right" color="alert">
+              <AtomButton text="top-right" />
+            </AtomBadge>
+            <AtomBadge content="3" placement="top-left" color="alert">
+              <AtomButton text="top-left" />
+            </AtomBadge>
+            <AtomBadge content="3" placement="bottom-right" color="alert">
+              <AtomButton text="bottom-right" />
+            </AtomBadge>
+            <AtomBadge content="3" placement="bottom-left" color="alert">
+              <AtomButton text="bottom-left" />
+            </AtomBadge>
+          </div>
+        </div>
+
+        <!-- 文字長短不影響定位 -->
+        <div class="space-y-2">
+          <p class="text-dt-zh-body-2 font-semibold">文字長短不影響定位</p>
+          <div class="flex flex-wrap gap-8 pt-2">
+            <AtomBadge content="1" placement="top-right" color="alert">
+              <AtomButton text="短" />
+            </AtomBadge>
+            <AtomBadge content="99" placement="top-right" color="alert">
+              <AtomButton text="中等長度按鈕" />
+            </AtomBadge>
+            <AtomBadge content="999" :max="99" placement="top-right" color="alert">
+              <AtomButton text="這是一段比較長的按鈕文字內容" href="https://www.google.com" />
+            </AtomBadge>
+            <AtomButton text="這是一段比較長的按鈕文字內容" />
+          </div>
+        </div>
+
+        <!-- dot 模式 -->
+        <div class="space-y-2">
+          <p class="text-dt-zh-body-2 font-semibold">dot（純提示點）</p>
+          <div class="flex flex-wrap gap-8 pt-2">
+            <AtomBadge size="dot" color="alert" placement="top-right">
+              <AtomButton text="有新消息" prepend="add" />
+            </AtomBadge>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

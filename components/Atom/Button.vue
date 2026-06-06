@@ -47,7 +47,7 @@ const iconSizeMap: Record<Size, Size> = {
 };
 const iconSize = computed(() => iconSizeMap[size.value]);
 
-const buttonClass = cva('inline-flex items-center gap-1', {
+const buttonClass = cva('inline-flex items-center gap-1 transition-colors duration-150', {
   variants: {
     variant: {
       primary: 'text-pr',
@@ -71,10 +71,18 @@ const buttonClass = cva('inline-flex items-center gap-1', {
       none: 'rounded-none',
     },
     disabled: {
-      true: 'opacity-50 cursor-not-allowed',
+      true: 'opacity-50 cursor-not-allowed pointer-events-none',
       false: '',
     },
   },
+  compoundVariants: [
+    { disabled: false, variant: 'primary', class: 'hover:bg-pr/10 active:bg-pr/20' },
+    { disabled: false, variant: 'secondary', class: 'hover:bg-sec/10 active:bg-sec/20' },
+    { disabled: false, variant: 'success', class: 'hover:bg-success/10 active:bg-success/20' },
+    { disabled: false, variant: 'alert', class: 'hover:bg-alert/10 active:bg-alert/20' },
+    { disabled: false, variant: 'ad', class: 'hover:bg-ad/10 active:bg-ad/20' },
+    { disabled: false, variant: 'light', class: 'hover:bg-white/10 active:bg-white/20' },
+  ],
 });
 </script>
 

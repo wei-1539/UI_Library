@@ -1,0 +1,69 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks'
+import * as BadgeStories from './Badge.stories.ts'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+附加在目標元素角落的數字或圓點，通知使用者待處理的事項數量。
+
+- 支援數字 `content`，超過 `max` 自動顯示 `+max`
+- `size="dot"` 只顯示純圓點，不帶文字
+- `content="0"` 預設隱藏，可用 `showZero` 強制顯示
+- 四個角落皆可定位（`placement`）
+
+## 使用方式
+
+```vue
+<!-- 包裹目標元素，信息會定位在邊界上 -->
+<Badge content="5" color="alert">
+  <YourComponent />
+</Badge>
+```
+
+## Props
+
+<ArgTypes of={BadgeStories} />
+
+## 行為說明
+
+<table>
+  <thead>
+    <tr>
+      <th>情境</th>
+      <th>結果</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>content</code> 未傳入，<code>size="dot"</code></td>
+      <td>顯示純小圓點</td>
+    </tr>
+    <tr>
+      <td><code>content</code> 是數字，<code>&lt;= max</code></td>
+      <td>直接顯示數字</td>
+    </tr>
+    <tr>
+      <td><code>content</code> 是數字，<code>&gt; max</code></td>
+      <td>顯示 <code>+${"{max}"}</code></td>
+    </tr>
+    <tr>
+      <td><code>content="0"</code>，<code>showZero=false</code></td>
+      <td>徽章縮放隱藏（<code>scale-0</code>）</td>
+    </tr>
+    <tr>
+      <td><code>content="0"</code>，<code>showZero=true</code></td>
+      <td>正常顯示 0</td>
+    </tr>
+  </tbody>
+</table>
+
+## 範例
+
+<Canvas of={BadgeStories.Basic} />
+<Canvas of={BadgeStories.Colors} />
+<Canvas of={BadgeStories.Sizes} />
+<Canvas of={BadgeStories.Placements} />
+<Canvas of={BadgeStories.MaxCount} />
+<Canvas of={BadgeStories.ShowZero} />
+<Canvas of={BadgeStories.WithButton} />

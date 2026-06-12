@@ -1,0 +1,71 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks'
+import * as TagStories from './Tag.stories.ts'
+
+<Meta of={TagStories} />
+
+# Tag
+
+輕量的標籤元件，用於分類、狀態標示或關鍵字呈現。
+
+- 三種外觀（`variant`）：`contained`、`outline`、`text`
+- 五種預設色系（`color`），也接受任意 CSS 色值
+- 三種尺寸（`size`）：`sm`、`md`、`lg`
+- 支援 `deletable` 模式，右側顯示 ✕，點擊觸發 `delete` event
+
+## 使用方式
+
+```vue
+<!-- 基本 -->
+<Tag color="primary">標籤</Tag>
+
+<!-- 框線樣式 + 可刪除 -->
+<Tag variant="outline" color="alert" :deletable="true" @delete="onDelete">
+  待處理
+</Tag>
+
+<!-- 自定義色值 -->
+<Tag color="#7c3aed">自定義</Tag>
+```
+
+## Props
+
+<ArgTypes of={TagStories} />
+
+## 色彩邏輯說明
+
+<table>
+  <thead>
+    <tr>
+      <th>情境</th>
+      <th>處理方式</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>color</code> 為預設色系關鍵字</td>
+      <td>走 CVA <code>compoundVariants</code>，套用 Tailwind class</td>
+    </tr>
+    <tr>
+      <td><code>color</code> 為任意 CSS 色值</td>
+      <td>改用 <code>inline style</code>，<code>contained</code> 以 <code>color-mix</code> 模擬 10% 背景透明度</td>
+    </tr>
+    <tr>
+      <td>刪除圖示 hover（預設色系）</td>
+      <td>靜態對應表取得 <code>hover:bg-*</code> class</td>
+    </tr>
+    <tr>
+      <td>刪除圖示 hover（自定義色）</td>
+      <td>JS 追蹤 <code>isDeleteHovered</code> 狀態，動態套 inline style</td>
+    </tr>
+  </tbody>
+</table>
+
+## 範例
+
+<Canvas of={TagStories.Basic} />
+<Canvas of={TagStories.Variants} />
+<Canvas of={TagStories.Colors} />
+<Canvas of={TagStories.Sizes} />
+<Canvas of={TagStories.Deletable} />
+<Canvas of={TagStories.CustomColor} />
+<Canvas of={TagStories.DeletableCustomColor} />

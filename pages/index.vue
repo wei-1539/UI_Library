@@ -359,6 +359,67 @@ const standaloneControlled = ref(false)
       </div>
     </section>
 
+    <!-- Tag -->
+    <section class="mb-8 rounded-lg border border-gray-300 bg-white p-4">
+      <h2 class="mb-4 text-dt-zh-head-3">Tag 標籤</h2>
+
+      <!-- 1. 純文字 -->
+      <div class="mb-6">
+        <p class="mb-2 text-dt-zh-body-2 font-semibold">1. 純文字（預設 contained）</p>
+        <div class="flex flex-wrap gap-2">
+          <AtomTag color="primary">primary</AtomTag>
+          <AtomTag color="secondary">secondary</AtomTag>
+          <AtomTag color="success">success</AtomTag>
+          <AtomTag color="alert">alert</AtomTag>
+          <AtomTag color="ad">ad</AtomTag>
+          <AtomTag color="#6366f1">自定義 #6366f1</AtomTag>
+          <AtomTag color="#f59e0b">自定義 #f59e0b</AtomTag>
+        </div>
+      </div>
+
+      <!-- 2. 文字 + 刪除 icon -->
+      <div class="mb-6">
+        <p class="mb-2 text-dt-zh-body-2 font-semibold">2. 文字 ＋ 刪除 icon（deletable）</p>
+        <div class="flex flex-wrap gap-2">
+          <AtomTag color="primary" deletable @delete="console.log('刪除 primary')">可刪除標籤</AtomTag>
+          <AtomTag color="success" deletable @delete="console.log('刪除 success')">成功標籤</AtomTag>
+          <AtomTag color="alert" deletable @delete="console.log('刪除 alert')">警告標籤</AtomTag>
+          <AtomTag color="#6366f1" deletable @delete="console.log('刪除自定義')">自定義色可刪除</AtomTag>
+        </div>
+      </div>
+
+      <!-- 3. 不同 variant -->
+      <div>
+        <p class="mb-2 text-dt-zh-body-2 font-semibold">3. 三種 variant 效果</p>
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="w-20 text-dt-zh-body-2 text-txt-light">contained</span>
+            <AtomTag variant="contained" color="primary">primary</AtomTag>
+            <AtomTag variant="contained" color="secondary">secondary</AtomTag>
+            <AtomTag variant="contained" color="success">success</AtomTag>
+            <AtomTag variant="contained" color="alert">alert</AtomTag>
+            <AtomTag variant="contained" color="#6366f1">自定義</AtomTag>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="w-20 text-dt-zh-body-2 text-txt-light">outline</span>
+            <AtomTag variant="outline" color="primary">primary</AtomTag>
+            <AtomTag variant="outline" color="secondary">secondary</AtomTag>
+            <AtomTag variant="outline" color="success">success</AtomTag>
+            <AtomTag variant="outline" color="alert">alert</AtomTag>
+            <AtomTag variant="outline" color="#6366f1">自定義</AtomTag>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="w-20 text-dt-zh-body-2 text-txt-light">text</span>
+            <AtomTag variant="text" color="primary">primary</AtomTag>
+            <AtomTag variant="text" color="secondary">secondary</AtomTag>
+            <AtomTag variant="text" color="success">success</AtomTag>
+            <AtomTag variant="text" color="alert">alert</AtomTag>
+            <AtomTag variant="text" color="#6366f1">自定義</AtomTag>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Colors -->
     <section class="mb-10">
       <h2 class="text-dt-zh-head-2 mb-4">Colors</h2>

@@ -1,0 +1,104 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Introduction" />
+
+# Component By Storybook
+
+這是一個以 **Nuxt + Vue 3 + Storybook** 為基礎的元件庫練習專案。  
+專案主軸是根據《為你自己寫 Vue Component》文章與書籍中的觀念，練習把元件做成可重用、可文件化的 UI Library。
+
+---
+
+## 專案目標
+
+- 練習元件庫設計思維：`Props`、`Slots`、`Events`、受控 / 非受控模式
+- 建立一致的元件 API 與命名方式（Atom / Common 分層）
+- 使用 Storybook 建立互動式文件，讓每個元件可視化驗證
+- 在開發階段就先把使用方式、邊界行為、範例情境整理清楚
+
+---
+
+## 技術組成
+
+<table>
+  <thead>
+    <tr>
+      <th>技術</th>
+      <th>用途</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Nuxt 3</code></td>
+      <td>應用框架</td>
+    </tr>
+    <tr>
+      <td><code>Vue 3</code> + <code>TypeScript</code></td>
+      <td>元件開發語言</td>
+    </tr>
+    <tr>
+      <td><code>Storybook</code>（<code>@nuxtjs/storybook</code>）</td>
+      <td>互動式文件</td>
+    </tr>
+    <tr>
+      <td><code>Tailwind CSS</code></td>
+      <td>樣式系統</td>
+    </tr>
+    <tr>
+      <td><code>@floating-ui/vue</code></td>
+      <td>Popover 類型元件定位</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 元件清單（目前）
+
+**Atom 元件**
+
+`Button` · `Icon` · `Breadcrumb` · `Pagination` · `Badge` · `Tag` · `Avatar` · `AvatarGroup` · `Accordion`
+
+**Common 元件**
+
+`Tab` · `Marquee` · `Popover` · `Dropdown`
+
+**Composables**
+
+`useFocusReturn` · `useMenuKeyboard` · `useRovingFocus`
+
+---
+
+## 元件分層設計
+
+```
+Atom    →  最小單元，無依賴其他元件，純 UI 積木
+Common  →  由多個 Atom 組合而成，具備互動邏輯
+```
+
+---
+
+## 專案啟動
+
+```bash
+# 安裝依賴
+npm install
+
+# 啟動 Storybook
+npm run storybook
+
+# 啟動 Nuxt 開發環境
+npm run dev
+```
+
+---
+
+## 學習定位
+
+這個 repo 不是單純「做出畫面」，而是偏向元件工程化練習：
+
+- 同一顆元件要能在不同情境重用
+- 文件（Storybook）要能讓人快速理解 API 與行為
+- 寫法要兼顧實作彈性與維護性
+
+

@@ -2,6 +2,7 @@ import type { StorybookConfig } from '@storybook-vue/nuxt';
 
 const config: StorybookConfig = {
   stories: [
+    "../Introduction.mdx",
     "../components/**/*.mdx",
     "../components/**/*.stories.@(js|jsx|ts|tsx|mdx)",
     "../composables/**/*.mdx",
